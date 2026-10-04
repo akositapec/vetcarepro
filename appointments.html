@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#10b981">
+    <title>My Bookings · VetCare Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+            padding-bottom: 70px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            color: white !important;
+        }
+        
+        .navbar-brand span {
+            color: #10b981;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+        }
+        
+        .nav-link.active {
+            background: #10b981 !important;
+            color: white !important;
+        }
+        
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 8px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .bottom-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 4px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .bottom-nav-item i {
+            font-size: 20px;
+        }
+        
+        .bottom-nav-item.active {
+            color: #10b981;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .appointments-section {
+            padding: 25px 0;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+        
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .filter-tab {
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            font-size: 13px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .filter-tab.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .booking-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eef2f6;
+        }
+        
+        .booking-id {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .booking-id small {
+            display: block;
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-confirmed {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .booking-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .detail-value.price {
+            color: #10b981;
+            font-weight: 700;
+        }
+        
+        .booking-notes {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        
+        .btn-cancel {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-cancel:active {
+            transform: scale(0.95);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 767px) {
+            .bottom-nav {
+                display: flex;
+            }
+            .navbar .nav-link:not(.navbar-brand) {
+                display: none;
+            }
+            footer {
+                padding-bottom: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Vet</span>Care Pro
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="book.html">Book</a></li>
+                <li class="nav-item"><a class="nav-link active" href="appointments.html">My Bookings</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>My Bookings</h1>
+        <p>Track your appointment status</p>
+    </div>
+</section>
+
+<!-- Appointments -->
+<section class="appointments-section">
+    <div class="container">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="filter-tab active" onclick="filterBookings('all')" id="filter-all">All</div>
+            <div class="filter-tab" onclick="filterBookings('pending')" id="filter-pending">Pending</div>
+            <div class="filter-tab" onclick="filterBookings('confirmed')" id="filter-confirmed">Confirmed</div>
+            <div class="filter-tab" onclick="filterBookings('completed')" id="filter-completed">Completed</div>
+        </div>
+        
+        <!-- Bookings List -->
+        <div id="bookingsList"></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer style="background: #0f172a; color: white; padding: 40px 0 20px; margin-top: 30px;">
+    <div class="container text-center">
+        <a href="index.html" style="font-size: 24px; font-weight: 800; color: white; text-decoration: none;">
+            <span style="color: #10b981;">Vet</span>Care Pro
+        </a>
+        <p style="margin-top: 15px; color: rgba(255,255,255,0.5); font-size: 13px;">© 2026 VetCare Pro. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+    </a>
+    <a href="services.html" class="bottom-nav-item">
+        <i class="fas fa-stethoscope"></i>
+        <span>Services</span>
+    </a>
+    <a href="book.html" class="bottom-nav-item">
+        <i class="fas fa-calendar-plus"></i>
+        <span>Book</span>
+    </a>
+    <a href="appointments.html" class="bottom-nav-item active">
+        <i class="fas fa-list"></i>
+        <span>My Bookings</span>
+    </a>
+    <a href="contact.html" class="bottom-nav-item">
+        <i class="fas fa-phone"></i>
+        <span>Contact</span>
+    </a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let allBookings = [];
+    let currentFilter = 'all';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        loadBookings();
+    });
+    
+    function loadBookings() {
+        allBookings = JSON.parse(localStorage.getItem('vetcare_bookings') || '[]');
+        displayBookings(allBookings);
+    }
+    
+    function displayBookings(bookings) {
+        const container = document.getElementById('bookingsList');
+        
+        if (bookings.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-calendar-times"></i>
+                    <h3>No Bookings Yet</h3>
+                    <p>You haven't booked any appointments. Schedule one now!</p>
+                    <a href="book.html" class="btn-primary-custom">
+                        <i class="fas fa-calendar-plus me-2"></i> Book Appointment
+                    </a>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        bookings.forEach(booking => {
+            const statusClass = getStatusClass(booking.status);
+            const dateFormatted = new Date(booking.date).toLocaleDateString('en-US', { 
+                weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' 
+            });
+            
+            html += `
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <div class="booking-id">
+                            #${booking.id}
+                            <small>Booked ${new Date(booking.createdAt).toLocaleDateString()}</small>
+                        </div>
+                        <span class="status-badge ${statusClass}">${booking.status}</span>
+                    </div>
+                    
+                    <div class="booking-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Pet</span>
+                            <span class="detail-value">${booking.petName} (${booking.petType})</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Service</span>
+                            <span class="detail-value">${booking.serviceName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Date</span>
+                            <span class="detail-value">${dateFormatted}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Time</span>
+                            <span class="detail-value">${booking.time}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Owner</span>
+                            <span class="detail-value">${booking.ownerName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Total</span>
+                            <span class="detail-value price">₱${booking.price.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    
+                    ${booking.notes ? `
+                        <div class="booking-notes">
+                            <i class="fas fa-comment me-1"></i> ${booking.notes}
+                        </div>
+                    ` : ''}
+                    
+                    ${booking.status === 'pending' || booking.status === 'confirmed' ? `
+                        <button class="btn-cancel" onclick="cancelBooking('${booking.id}')">
+                            <i class="fas fa-times me-1"></i> Cancel Booking
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+    
+    function getStatusClass(status) {
+        switch(status) {
+            case 'pending': return 'status-pending';
+            case 'confirmed': return 'status-confirmed';
+            case 'completed': return 'status-completed';
+            case 'cancelled': return 'status-cancelled';
+            default: return 'status-pending';
+        }
+    }
+    
+    function filterBookings(filter) {
+        currentFilter = filter;
+        
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.getElementById(`filter-${filter}`).classList.add('active');
+        
+        if (filter === 'all') {
+            displayBookings(allBookings);
+        } else {
+            const filtered = allBookings.filter(b => b.status === filter);
+            displayBookings(filtered);
+        }
+    }
+    
+    function cancelBooking(id) {
+        if (!confirm('Are you sure you want to cancel this booking?')) return;
+        
+        let bookings = JSON.parse(localStorage.getItem('vetcare_bookings') || '[]');
+        const index = bookings.findIndex(b => b.id === id);
+        
+        if (index !== -1) {
+            bookings[index].status = 'cancelled';
+            localStorage.setItem('vetcare_bookings', JSON.stringify(bookings));
+            loadBookings();
+            filterBookings(currentFilter);
+            alert('✅ Booking cancelled');
+        }
+    }
+</script>
+
+</body>
+</html>

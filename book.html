@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#10b981">
+    <title>Book Appointment · VetCare Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+            padding-bottom: 70px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            color: white !important;
+        }
+        
+        .navbar-brand span {
+            color: #10b981;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+        }
+        
+        .nav-link.active {
+            background: #10b981 !important;
+            color: white !important;
+        }
+        
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 8px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .bottom-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 4px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .bottom-nav-item i {
+            font-size: 20px;
+        }
+        
+        .bottom-nav-item.active {
+            color: #10b981;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .booking-section {
+            padding: 30px 0;
+        }
+        
+        .booking-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+        
+        .service-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .service-option:active {
+            transform: scale(0.98);
+        }
+        
+        .service-option.selected {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .service-option-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .service-option-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .service-option h6 {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+        
+        .service-option small {
+            color: #64748b;
+            font-size: 12px;
+        }
+        
+        .service-option .price {
+            font-weight: 800;
+            color: #10b981;
+            font-size: 16px;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* ========== SUCCESS MODAL ========== */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .success-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px 25px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: slideUp 0.4s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+            animation: popIn 0.5s;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-content h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .success-content p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .booking-ref {
+            background: #f0fdf4;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #059669;
+            letter-spacing: 2px;
+        }
+        
+        @media (max-width: 767px) {
+            .bottom-nav {
+                display: flex;
+            }
+            .navbar .nav-link:not(.navbar-brand) {
+                display: none;
+            }
+            footer {
+                padding-bottom: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <span>Vet</span>Care Pro
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link active" href="book.html">Book</a></li>
+                <li class="nav-item"><a class="nav-link" href="appointments.html">My Bookings</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Book Appointment</h1>
+        <p>Fill out the form below to schedule your pet's visit</p>
+    </div>
+</section>
+
+<!-- Booking Form -->
+<section class="booking-section">
+    <div class="container">
+        <form id="bookingForm">
+            <!-- Owner Info -->
+            <div class="booking-card">
+                <h5 style="font-weight: 700; color: #1e293b; margin-bottom: 20px; font-size: 16px;">
+                    <i class="fas fa-user" style="color: #10b981;"></i> Owner Information
+                </h5>
+                
+                <div class="mb-3">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" class="form-control" id="ownerName" placeholder="Juan Dela Cruz" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Phone Number *</label>
+                    <input type="tel" class="form-control" id="ownerPhone" placeholder="0912 345 6789" required>
+                </div>
+                
+                <div class="mb-0">
+                    <label class="form-label">Email (optional)</label>
+                    <input type="email" class="form-control" id="ownerEmail" placeholder="you@email.com">
+                </div>
+            </div>
+            
+            <!-- Pet Info -->
+            <div class="booking-card">
+                <h5 style="font-weight: 700; color: #1e293b; margin-bottom: 20px; font-size: 16px;">
+                    <i class="fas fa-paw" style="color: #10b981;"></i> Pet Information
+                </h5>
+                
+                <div class="mb-3">
+                    <label class="form-label">Pet Name *</label>
+                    <input type="text" class="form-control" id="petName" placeholder="Buddy" required>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="form-label">Pet Type *</label>
+                        <select class="form-select" id="petType" required>
+                            <option value="">Select...</option>
+                            <option value="Dog">Dog</option>
+                            <option value="Cat">Cat</option>
+                            <option value="Bird">Bird</option>
+                            <option value="Rabbit">Rabbit</option>
+                            <option value="Hamster">Hamster</option>
+                            <option value="Fish">Fish</option>
+                            <option value="Reptile">Reptile</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="form-label">Age (years)</label>
+                        <input type="number" class="form-control" id="petAge" placeholder="2" min="0" max="50">
+                    </div>
+                </div>
+                
+                <div class="mb-0">
+                    <label class="form-label">Breed (optional)</label>
+                    <input type="text" class="form-control" id="petBreed" placeholder="e.g. Aspin, Poodle">
+                </div>
+            </div>
+            
+            <!-- Service Selection -->
+            <div class="booking-card">
+                <h5 style="font-weight: 700; color: #1e293b; margin-bottom: 20px; font-size: 16px;">
+                    <i class="fas fa-stethoscope" style="color: #10b981;"></i> Select Service *
+                </h5>
+                
+                <div class="service-option" onclick="selectService('checkup', 500)" data-service="checkup">
+                    <div class="service-option-info">
+                        <div class="service-option-icon"><i class="fas fa-stethoscope"></i></div>
+                        <div>
+                            <h6>General Checkup</h6>
+                            <small>Complete physical exam</small>
+                        </div>
+                    </div>
+                    <div class="price">₱500</div>
+                </div>
+                
+                <div class="service-option" onclick="selectService('vaccine', 800)" data-service="vaccine">
+                    <div class="service-option-info">
+                        <div class="service-option-icon"><i class="fas fa-syringe"></i></div>
+                        <div>
+                            <h6>Vaccination</h6>
+                            <small>Complete vaccine program</small>
+                        </div>
+                    </div>
+                    <div class="price">₱800</div>
+                </div>
+                
+                <div class="service-option" onclick="selectService('dental', 1500)" data-service="dental">
+                    <div class="service-option-info">
+                        <div class="service-option-icon"><i class="fas fa-tooth"></i></div>
+                        <div>
+                            <h6>Dental Care</h6>
+                            <small>Cleaning & oral exam</small>
+                        </div>
+                    </div>
+                    <div class="price">₱1,500</div>
+                </div>
+                
+                <div class="service-option" onclick="selectService('grooming', 600)" data-service="grooming">
+                    <div class="service-option-info">
+                        <div class="service-option-icon"><i class="fas fa-bath"></i></div>
+                        <div>
+                            <h6>Grooming</h6>
+                            <small>Bath, haircut, nail trim</small>
+                        </div>
+                    </div>
+                    <div class="price">₱600</div>
+                </div>
+                
+                <div class="service-option" onclick="selectService('surgery', 5000)" data-service="surgery">
+                    <div class="service-option-info">
+                        <div class="service-option-icon"><i class="fas fa-cut"></i></div>
+                        <div>
+                            <h6>Surgery</h6>
+                            <small>Consultation required</small>
+                        </div>
+                    </div>
+                    <div class="price">From ₱5,000</div>
+                </div>
+                
+                <div class="service-option" onclick="selectService('emergency', 0)" data-service="emergency">
+                    <div class="service-option-info">
+                        <div class="service-option-icon"><i class="fas fa-ambulance"></i></div>
+                        <div>
+                            <h6>Emergency</h6>
+                            <small>Urgent care - call us</small>
+                        </div>
+                    </div>
+                    <div class="price">Varies</div>
+                </div>
+            </div>
+            
+            <!-- Date & Time -->
+            <div class="booking-card">
+                <h5 style="font-weight: 700; color: #1e293b; margin-bottom: 20px; font-size: 16px;">
+                    <i class="fas fa-calendar-alt" style="color: #10b981;"></i> Preferred Schedule *
+                </h5>
+                
+                <div class="mb-3">
+                    <label class="form-label">Date *</label>
+                    <input type="date" class="form-control" id="apptDate" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Time *</label>
+                    <select class="form-select" id="apptTime" required>
+                        <option value="">Select time...</option>
+                        <option value="09:00 AM">09:00 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="03:00 PM">03:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                        <option value="05:00 PM">05:00 PM</option>
+                    </select>
+                </div>
+                
+                <div class="mb-0">
+                    <label class="form-label">Reason / Notes (optional)</label>
+                    <textarea class="form-control" id="notes" rows="3" placeholder="Describe symptoms or concerns..."></textarea>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <i class="fas fa-check-circle"></i> Confirm Booking
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Success Modal -->
+<div class="success-modal" id="successModal">
+    <div class="success-content">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h3>Booking Confirmed!</h3>
+        <p>Your appointment has been scheduled. Please save your reference number:</p>
+        <div class="booking-ref" id="bookingRef">VC-0000</div>
+        <p style="font-size: 13px;">We'll contact you shortly to confirm your schedule.</p>
+        <a href="appointments.html" class="btn-submit" style="margin-bottom: 10px;">
+            <i class="fas fa-list"></i> View My Bookings
+        </a>
+        <a href="index.html" class="btn btn-link" style="color: #64748b; text-decoration: none;">
+            Back to Home
+        </a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer style="background: #0f172a; color: white; padding: 40px 0 20px;">
+    <div class="container text-center">
+        <a href="index.html" style="font-size: 24px; font-weight: 800; color: white; text-decoration: none;">
+            <span style="color: #10b981;">Vet</span>Care Pro
+        </a>
+        <p style="margin-top: 15px; color: rgba(255,255,255,0.5); font-size: 13px;">© 2026 VetCare Pro. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+    </a>
+    <a href="services.html" class="bottom-nav-item">
+        <i class="fas fa-stethoscope"></i>
+        <span>Services</span>
+    </a>
+    <a href="book.html" class="bottom-nav-item active">
+        <i class="fas fa-calendar-plus"></i>
+        <span>Book</span>
+    </a>
+    <a href="appointments.html" class="bottom-nav-item">
+        <i class="fas fa-list"></i>
+        <span>My Bookings</span>
+    </a>
+    <a href="contact.html" class="bottom-nav-item">
+        <i class="fas fa-phone"></i>
+        <span>Contact</span>
+    </a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let selectedService = null;
+    let selectedPrice = 0;
+    
+    // Set minimum date to today
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('apptDate').setAttribute('min', today);
+        
+        // Check URL for preselected service
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        if (service) {
+            const option = document.querySelector(`[data-service="${service}"]`);
+            if (option) {
+                const priceText = option.querySelector('.price').textContent;
+                const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+                selectService(service, price);
+            }
+        }
+    });
+    
+    function selectService(service, price) {
+        selectedService = service;
+        selectedPrice = price;
+        
+        // Update UI
+        document.querySelectorAll('.service-option').forEach(el => {
+            el.classList.remove('selected');
+        });
+        document.querySelector(`[data-service="${service}"]`).classList.add('selected');
+    }
+    
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate service selected
+        if (!selectedService) {
+            alert('Please select a service');
+            return;
+        }
+        
+        // Collect data
+        const booking = {
+            id: 'VC-' + Date.now().toString().slice(-6),
+            ownerName: document.getElementById('ownerName').value,
+            ownerPhone: document.getElementById('ownerPhone').value,
+            ownerEmail: document.getElementById('ownerEmail').value,
+            petName: document.getElementById('petName').value,
+            petType: document.getElementById('petType').value,
+            petAge: document.getElementById('petAge').value,
+            petBreed: document.getElementById('petBreed').value,
+            service: selectedService,
+            serviceName: document.querySelector(`[data-service="${selectedService}"] h6`).textContent,
+            price: selectedPrice,
+            date: document.getElementById('apptDate').value,
+            time: document.getElementById('apptTime').value,
+            notes: document.getElementById('notes').value,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+        };
+        
+        // Save to localStorage (pretend database)
+        let bookings = JSON.parse(localStorage.getItem('vetcare_bookings') || '[]');
+        bookings.unshift(booking);
+        localStorage.setItem('vetcare_bookings', JSON.stringify(bookings));
+        
+        // Show success modal
+        document.getElementById('bookingRef').textContent = booking.id;
+        document.getElementById('successModal').classList.add('show');
+        
+        // Reset form
+        this.reset();
+        selectedService = null;
+        document.querySelectorAll('.service-option').forEach(el => el.classList.remove('selected'));
+    });
+</script>
+
+</body>
+</html>
